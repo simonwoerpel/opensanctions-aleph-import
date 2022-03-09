@@ -3,7 +3,7 @@ export FTM_STORE_URI=postgresql:///ftm
 all: install opensanctions rus_recent
 
 install:
-	pip install followthemoney-store alephclient pyicu
+	pip install followthemoney-store alephclient pyicu psycopg2
 
 opensanctions:
 	# python3 update_collections.py

@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install apt dependencies
-        run: sudo apt-get install --yes postgresql-client libicu-dev
+        run: sudo apt-get install --yes postgresql-client libicu-dev csvkit jq
       - name: Install pip dependencies
         run: make install
       - name: Run opensanctions crawler
