@@ -1,0 +1,40 @@
+name: opensanctions
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2,8,14,20 * * *"
+
+jobs:
+  crawl:
+    runs-on: ubuntu:latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: ftm
+          POSTGRES_PASSWORD: ftm
+          POSTGRES_USER: ftm
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      FTM_STORE_URI: postgresql://ftm:ftm@localhost/ftm
+      ALEPHCLIENT_HOST: ${{ secrets.ALEPHCLIENT_HOST }}
+      ALEPHCLIENT_API_KEY: ${{ secrets.ALEPHCLIENT_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install apt dependencies
+        run: sudo apt-get install --yes postgresql-client libicu-dev
+      - name: Install pip dependencies
+        run: make install
+      - name: Run opensanctions crawler
+        run: make opensanctions
+      - name: Run opensanctions_rus crawler
+        run: make rus_recent
