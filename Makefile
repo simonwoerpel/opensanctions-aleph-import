@@ -1,4 +1,4 @@
-export FTM_STORE_URI=postgresql:///ftm
+export FTM_STORE_URI ?= postgresql:///ftg                                                                                      
 
 all: install opensanctions rus_recent
 
@@ -17,5 +17,3 @@ rus_recent:
 	curl -s https://data.opensanctions.org/datasets/latest/all/entities.ftm.json | ftm store write -d opensanctions
 	psql $(FTM_STORE_URI) < ./ru_recent_sanctions_2022.sql
 	ftm store iterate -d ru_recent_sanctions_2022 | alephclient write-entities -f ru_recent_sanctions_2022
-
-
