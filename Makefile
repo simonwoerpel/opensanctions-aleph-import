@@ -6,7 +6,7 @@ install:
 	pip install followthemoney-store alephclient pyicu psycopg2
 
 opensanctions:
-	# python3 update_collections.py
+	python3 update_collections.py
 	curl -s https://data.opensanctions.org/datasets/latest/index.json | jq -r '.datasets[] | [.name, .title, .resources[0].url] | @csv' | csvcut | grep -v ^all | while IFS=, read -r name title url; do \
 		echo "processing $$title ..." ; \
 		curl -s "$$url" | ftm validate | alephclient write-entities -f "$$name" ; \
