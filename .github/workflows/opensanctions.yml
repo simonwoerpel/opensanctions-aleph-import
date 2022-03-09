@@ -30,6 +30,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
       - name: Install apt dependencies
         run: sudo apt-get install --yes postgresql-client libicu-dev csvkit jq
       - name: Install pip dependencies
